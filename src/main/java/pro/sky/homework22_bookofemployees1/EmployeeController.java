@@ -19,10 +19,10 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public ResponseEntity<Employee> addPerson(@RequestParam String firstName,
-                                              @RequestParam String lastName,
-                                              @RequestParam int department,
-                                              @RequestParam int salary) {
+    public ResponseEntity<Employee> addPerson(@RequestParam(value = "firstName") String firstName,
+                                              @RequestParam(value = "lastName") String lastName,
+                                              @RequestParam(value = "department") int department,
+                                              @RequestParam(value = "salary") int salary) {
         try {
             return ResponseEntity.ok(service.addPersons(firstName, lastName, department, salary));
         } catch (EmployeeStorageIsFullException e) {
@@ -33,7 +33,7 @@ public class EmployeeController {
     @GetMapping("/remove")
     public Employee removePerson(@RequestParam String firstName,
                                  @RequestParam String lastName) {
-        return service.removePersons(firstName,lastName);
+        return service.removePersons(firstName, lastName);
 
     }
 

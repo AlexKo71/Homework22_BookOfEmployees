@@ -8,32 +8,33 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
+
 @RestController
 @RequestMapping("/departments")
 public class DepartmentController {
-    private final DepartmentService service;
+    private final DepartmentService departmentService;
 
-    public DepartmentController(DepartmentService service) {
-        this.service = service;
+        public DepartmentController(DepartmentService departmentService) {
+            this.departmentService = departmentService;
     }
 
     @GetMapping("/max-salary")
     public Employee maxSalary(@RequestParam(value = "departmentId") int numberDepartment) {
-        return service.maxSalary(service.employees, numberDepartment);
+        return departmentService.maxSalary(numberDepartment);
     }
 
     @GetMapping("/min-salary")
     public Employee minSalary(@RequestParam(value = "departmentId") int numberDepartment) {
-        return service.minSalary(service.employees, numberDepartment);
+        return departmentService.minSalary(numberDepartment);
     }
 
     @GetMapping(value = "/all", params = {"departmentId"})
     public List<Employee> allDepartment(@RequestParam (value = "departmentId") int numberDepartment) {
-        return service.departmentList(service.employees, numberDepartment);
+        return departmentService.departmentList(numberDepartment);
     }
 
     @GetMapping("/all")
     public Map<Integer, List<Employee>> all() {
-        return service.listOfAllEmployees(service.employees);
+        return departmentService.listOfAllEmployees();
     }
 }
