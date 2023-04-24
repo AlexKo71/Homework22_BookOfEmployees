@@ -1,15 +1,16 @@
 package pro.sky.homework22_bookofemployees1;
 
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 
 @RestController
-@RequestMapping("/departments")
+@RequestMapping("/employee")
 public class EmployeeController {
     private final EmployeeService service;
 
@@ -17,23 +18,34 @@ public class EmployeeController {
         this.service = service;
     }
 
-    @GetMapping("/max-salary")
-    public Employee maxSalary(@RequestParam(value = "departmentId") int numberDepartment) {
-        return service.maxSalary(service.employeeList, numberDepartment);
+    @GetMapping("/add")
+    public ResponseEntity<Employee> addPerson(@RequestParam String firstName,
+                                              @RequestParam String lastName,
+                                              @RequestParam int department,
+                                              @RequestParam int salary) {
+        try {
+            return ResponseEntity.ok(service.addPersons(firstName, lastName, department, salary));
+        } catch (EmployeeStorageIsFullException e) {
+            return ResponseEntity.status(500).build();
+        }
     }
 
-    @GetMapping("/min-salary")
-    public Employee minSalary(@RequestParam(value = "departmentId") int numberDepartment) {
-        return service.minSalary(service.employeeList, numberDepartment);
+    @GetMapping("/remove")
+    public Employee removePerson(@RequestParam String firstName,
+                                 @RequestParam String lastName) {
+        return service.removePersons(firstName,lastName);
+
     }
 
-    @GetMapping(value = "/all", params = {"departmentId"})
-    public List<Employee> allDepartment(@RequestParam (value = "departmentId") int numberDepartment) {
-        return service.departmentList(service.employeeList, numberDepartment);
+    @GetMapping("/find")
+    public Employee findPersons(@RequestParam(value = "firstName", required = false) String firstName,
+                                @RequestParam(value = "lastName", required = false) String lastName) {
+        return service.findPersons(firstName, lastName);
     }
 
-    @GetMapping("/all")
-    public Map<Integer, List<Employee>> all() {
-        return service.listOfAllEmployees(service.employeeList);
+    @GetMapping("/print")
+    public Collection<Employee> allPrint() {
+        return service.getEmployees();
     }
+
 }

@@ -2,14 +2,13 @@ package pro.sky.homework22_bookofemployees1;
 
 public class Employee {
     private final String firstName;
-    private final String surName;
     private final String lastName;
     private int department;
     private int salary;
+    private final String fullName = "firstName" + "" + "lastName";
 
-    public Employee(String firstName, String surName, String lastName, int department, int salary) {
+    public Employee(String firstName, String lastName, int department, int salary) {
         this.firstName = firstName;
-        this.surName = surName;
         this.lastName = lastName;
         this.department = department;
         this.salary = salary;
@@ -17,10 +16,6 @@ public class Employee {
 
     public String getFirstName() {
         return firstName;
-    }
-
-    public String getSurName() {
-        return surName;
     }
 
     public String getLastName() {
@@ -41,5 +36,9 @@ public class Employee {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 }
